@@ -206,6 +206,7 @@
 
 \def\frontmatter%
 {%
+  \clearpage
   \@numchapterfalse
   \normalsize
   \pagenumbering{roman}
@@ -215,6 +216,7 @@
 
 \def\mainmatter%
 {%
+  \clearpage
   \@numchaptertrue
   \normalsize
   \pagenumbering{arabic}
@@ -224,6 +226,7 @@
 
 \def\backmatter%
 {%
+  \clearpage
   \@numchaptertrue
   \normalsize
 }%
@@ -283,26 +286,6 @@
   \endlist%
   \end{shaded}%
 }%
-
-
-\def\setitemindent#1{\settowidth{\labelwidth}{#1}%
-        \let\setit@m=Y%
-        \leftmargini\labelwidth
-        \advance\leftmargini\labelsep
-   \def\@listi{\leftmargin\leftmargini
-        \labelwidth\leftmargini\advance\labelwidth by -\labelsep
-        \parsep=\parskip
-        \topsep=\medskipamount
-        \itemsep=\parskip \advance\itemsep by -\parsep}}
-\def\setitemitemindent#1{\settowidth{\labelwidth}{#1}%
-        \let\setit@m=Y%
-        \leftmarginii\labelwidth
-        \advance\leftmarginii\labelsep
-\def\@listii{\leftmargin\leftmarginii
-        \labelwidth\leftmarginii\advance\labelwidth by -\labelsep
-        \parsep=\parskip
-        \topsep=6\p@
-        \itemsep=\parskip \advance\itemsep by -\parsep}}
 
 
 \def\fps@figure{htbp}
@@ -393,9 +376,6 @@
 \def\thechapterend{}
 
 
-%\newcounter{chapter}
-
-
 \def\@chapapp{Chapter}
 
 
@@ -483,11 +463,10 @@
     \processchapsubtit
     \processchapauthor
     \processmotto
-    \ifdim\pagetotal>167\p@
+    \ifdim\pagetotal>64\p@
       \vskip 11\p@
     \else
-      %\@tempdima=167\p@\advance\@tempdima by-\pagetotal
-      \@tempdima=60\p@\advance\@tempdima by-\pagetotal
+      \@tempdima=64\p@\advance\@tempdima by-\pagetotal
       \vskip\@tempdima
     \fi
   }%
@@ -503,10 +482,9 @@
     \chapsize\chapstyle
     \ignorespaces#1\par\nobreak
     \processmotto
-    \ifdim\pagetotal>167\p@
+    \ifdim\pagetotal>48\p@
       \vskip 11\p@
     \else
-      %\@tempdima=168\p@\advance\@tempdima by-\pagetotal
       \@tempdima=48\p@\advance\@tempdima by-\pagetotal
       \vskip\@tempdima
     \fi
