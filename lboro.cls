@@ -1,82 +1,58 @@
 %
-% lboro v1.0
+% lboro v2.0
 % Developed by Gary Bennett <g.bennett-13@student.lboro.ac.uk>
 %
-% Originally created for Computer Science 3rd year Thesis at
-% Loughboroough University.
+% Originally created for Computer Science MSci Thesis at Loughboroough University.
 %
 %---------------------------- Identification -----------------------------------
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{lboro}[2014/12/24 v1.0 lboro thesis class]
 %-------------------------------------------------------------------------------
 
-\newif\if@logo
-\@logofalse
+\newif\if@tableenvironment
+\@tableenvironmentfalse
 
-\newif\if@heading
-\@headingfalse
-
-\newif\if@apa
-\@apafalse
-
-\DeclareOption{logo}{\@logotrue}
-\DeclareOption{heading}{\@headingtrue}
-\DeclareOption{apa}{\@apatrue}
+\newif\if@numchapter
+\@numchapterfalse
 
 \ProcessOptions\relax
 
-\LoadClass[a4paper,twoside]{article}
-
-%\if@apa
-%  \bibliographystyle{apalike}
-%\else
-%  \bibliographystyle{plain}
-%\fi
+\LoadClass[a4paper,twoside]{report}
 
 %---------------------------- Packages -----------------------------------------
-\RequirePackage[margin=3.5cm]{geometry}
-\RequirePackage{fancyhdr}
-\RequirePackage{amsmath}
-\RequirePackage{amsthm}
-\RequirePackage{amsfonts}
-\RequirePackage{mathptmx}
-\RequirePackage[scaled=0.92]{helvet}
-\RequirePackage{courier}
-\RequirePackage[mathscr]{euscript}
-\RequirePackage[titletoc,title]{appendix}
-\RequirePackage[english]{babel}
-\RequirePackage[{protrusion=true,expansion=true}]{microtype}
-\RequirePackage{graphicx}
-\RequirePackage{enumitem}
-\RequirePackage[dvipsnames,svgnames,usenames]{xcolor}
-\RequirePackage{tikz}
-\RequirePackage{pdflscape}
-\RequirePackage{booktabs}
-\RequirePackage[bottom]{footmisc}
-\RequirePackage{pgfgantt}
-\RequirePackage{framed}
+\RequirePackage{color}
 %-------------------------------------------------------------------------------
 
-\usetikzlibrary{arrows}
+%- Page Margins ----------------------------------------------------------------
+\setlength{\textwidth}{140mm}
+\setlength{\textheight}{227mm}
+\setlength{\topmargin}{0\p@}
+\setlength\oddsidemargin{10mm}
+\setlength\evensidemargin{10mm}
+\setlength\marginparwidth{35mm}
+\setlength\headsep{12\p@}
+%-------------------------------------------------------------------------------
 
 %--------------------------- Declarations --------------------------------------
-%\def\degree#1{\gdef\@degree{#1}}
+\def\degree#1{\gdef\@degree{#1}}
 \def\subtitle#1{\gdef\@subtitle{#1}}
-%\def\submitdate#1{\gdef\@submitdate{#1}}
+\def\submitdate#1{\gdef\@submitdate{#1}}
 %-------------------------------------------------------------------------------
 
+\gdef\@degree{}
 \gdef\@subtitle{}
+\gdef\@submitdate{}
 
-\AtBeginDocument{%
+\AtBeginDocument%
+{%
   \let\@uthor\@author%
   \let\@itle\@title%
   \let\@ate\@date%
-}
+}%
 
 %--------------------------- Font && Linespacing -------------------------------
-\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
-
-\renewcommand\normalsize{%
+\renewcommand\normalsize%
+{%
   \@setfontsize\normalsize\@xpt\@xiipt%
   \abovedisplayskip 10\p@%
   \abovedisplayshortskip \z@%
@@ -85,15 +61,19 @@
   \let\@listi\@listI%
 }%
 
-\renewcommand\small{%
+\renewcommand\small%
+{%
   \@setfontsize\small{8.5}{10}%
   \abovedisplayskip 8.5\p@%
   \abovedisplayshortskip \z@%
   \belowdisplayshortskip 4\p@%
-  \def\@listi{\leftmargin\leftmargini%
-              \parsep \z@ \@plus\p@ \@minus\p@%
-              \topsep 6\p@ \@plus2\p@ \@minus4\p@%
-              \itemsep\z@}%
+  \def\@listi%
+    {%
+      \leftmargin\leftmargini%
+      \parsep \z@ \@plus\p@ \@minus\p@%
+      \topsep 6\p@ \@plus2\p@ \@minus4\p@%
+      \itemsep\z@
+    }%
   \belowdisplayskip \abovedisplayskip%
 }%
 
@@ -127,7 +107,6 @@
 \newcommand{\subsecstyle}{\bfseries\itshape\boldmath}
 \newcommand{\subsubsecstyle}{\bfseries\boldmath}
 
-\def\url#1{#1}
 
 \renewcommand\section%
 {%
@@ -138,6 +117,7 @@
     \@plus 8em\pretolerance=10000}%
 }%
 
+
 \renewcommand\subsection%
 {%
   \@startsection{subsection}{2}{\z@}%
@@ -146,6 +126,7 @@
   {\normalfont\subsecsize\subsecstyle\rightskip=\z@%
     \@plus 8em\pretolerance=10000}%
 }%
+
 
 \renewcommand\subsubsection%
 {%
@@ -160,381 +141,635 @@
 
 %--------------------------- Environments && Definitions -----------------------
 \def\maketitle%
+{%
   {%
+    \thispagestyle{empty}%
+    \addtocounter{page}\m@ne%
     {%
-      \thispagestyle{empty}%
-      \addtocounter{page}\m@ne%
+      \noindent%
+      \LARGE%
+      \lineskip .5em%
+      \@author%
+      \par%
+    }%
+    \vskip 2cm%
+    {%
+      \noindent\Huge\bfseries\@title \par%
+    }
+    \vskip 1cm%
+    \if!\@subtitle!\else
       {%
         \noindent%
         \LARGE%
-        %\vspace*{2em}%
-        \lineskip .5em%
-        \@author%
+        \ignorespaces%
+        \@subtitle%
         \par%
       }%
-      \vskip 2cm%
-      {%
-        \noindent\Huge\bfseries\@title \par%
-      }
       \vskip 1cm%
-      \if!\@subtitle!\else
-        {%
-          \noindent%
-          \LARGE%
-          \ignorespaces%
-          \@subtitle%
-          \par%
-        }%
-        \vskip 1cm%
-      \fi
-      \if!\@date!\else
-        {%
-          \noindent%
-          \@date%
-          \par%
-          \vskip 1.5em%
-        }%
-      \fi
-      \vfill%
+    \fi
+    \if!\@date!\else
       {%
         \noindent%
-        \if@logo
-          \includegraphics[width=5cm]{inc/lboro_logo.pdf}
-        \else
-          \Large%
-          \bfseries%
-          Loughborough University%
-          \par%
-        \fi
+        \@date%
+        \par%
+        \vskip 1.5em%
       }%
-      \clearpage%
+    \fi
+    \if!\@submitdate!\else
+      {%
+        \noindent%
+        \@submitdate%
+        \par%
+        \vskip 1.5em%
+      }%
+    \fi
+    \if!\@degree!\else
+      {%
+        \noindent%
+        \@degree%
+        \par%
+        \vskip 1.5em%
+      }%
+    \fi
+    \vfill%
+    {%
+      \noindent%
+      \Large%
+      \bfseries%
+      Loughborough University%
+      \par%
     }%
-  }
+    \clearpage%
+  }%
+}
+
 
 \def\frontmatter%
-  {%
-    \normalsize
-    \pagestyle{fancyplain}
-    \fancyhf{}
-    \pagenumbering{roman}
-    \fancyfoot[C]{\thepage}
-    \pagestyle{plain}
-  }%
+{%
+  \@numchapterfalse
+  \normalsize
+  \pagenumbering{roman}
+  \pagestyle{frontmatterpagestyle}
+}%
+
 
 \def\mainmatter%
-  {%
-    \normalsize
-    \pagenumbering{arabic}
-    \fancyhf{}
-    \if@heading
-      \fancyhead[RO,RE]{\small\@uthor}
-      \fancyhead[LO,LE]{\small\nouppercase{\leftmark}}
-    \fi
-    \fancyfoot[R]{\thepage}
-  }%
+{%
+  \@numchaptertrue
+  \normalsize
+  \pagenumbering{arabic}
+  \pagestyle{mainmatterpagestyle}
+}%
+
 
 \def\backmatter%
-  {%
-    \normalsize
-    \fancyhf{}
-    \fancyfoot[R]{\thepage}
-  }%
+{%
+  \@numchaptertrue
+  \normalsize
+}%
 
-\let\appendix=\bppendix
 
 \newenvironment{dedication}%
-  {%
-    \clearpage
-    \thispagestyle{empty}
-    \vspace*{\stretch{1}}
-    \itshape
-    \centering
-  }%
-  {%
-    \par
-    \vspace{\stretch{3}}
-    \clearpage
-  }%
+{%
+  \clearpage
+  \thispagestyle{empty}
+  \vspace*{\stretch{1}}
+  \itshape
+  \centering
+}%
+{%
+  \par
+  \vspace{\stretch{3}}
+  \clearpage
+}%
+
 
 \newenvironment{acknowledgement}%
-  {%
-    \addtocounter{page}\m@ne
-    \clearpage
-    \section*{Acknowledgements}
-    \addcontentsline{toc}{section}{Acknowledgements}
-  }%
-  {%
-    \par
-    \clearpage
-  }%
+{%
+  \addtocounter{page}
+  \m@ne
+  \clearpage
+  \chapter*{Acknowledgements}
+  \addcontentsline{toc}{chapter}{Acknowledgements}
+}%
+{%
+  \par
+  \clearpage
+}%
+
 
 \renewenvironment{abstract}%
-  {%
-    \clearpage
-    \section*{Abstract}
-    \addcontentsline{toc}{section}{Abstract}
-  }%
-  {%
-    \par
-    \clearpage
-  }%
+{%
+  \clearpage
+  \chapter*{Abstract}
+  \addcontentsline{toc}{chapter}{Abstract}
+}%
+{%
+  \par
+  \clearpage
+}%
+
 
 \definecolor{shadecolor}{gray}{.90}%
 \newenvironment{graybox}%
-  {%
-    \fboxsep=12pt\relax%
-    \begin{shaded}%
-    \list{}{\leftmargin=12pt\rightmargin=2\leftmargin\leftmargin=\z@\topsep=\z@\relax}%
-    \expandafter\item\parindent%
-    \listparindent%
-  }%
-  {%
-    \endlist\end{shaded}%
-  }%
+{%
+  \fboxsep=12pt\relax%
+  \begin{shaded}%
+  \list{}{\leftmargin=12pt\rightmargin=2\leftmargin\leftmargin=\z@\topsep=\z@\relax}%
+  \expandafter\item\parindent%
+  \listparindent%
+}%
+{%
+  \endlist%
+  \end{shaded}%
+}%
 
-% figures and tables are processed in small print
-\def \@floatboxreset {%
-        \reset@font
-        \small
-        \@setnobreak
-        \@setminipage
-}
+
+\def\setitemindent#1{\settowidth{\labelwidth}{#1}%
+        \let\setit@m=Y%
+        \leftmargini\labelwidth
+        \advance\leftmargini\labelsep
+   \def\@listi{\leftmargin\leftmargini
+        \labelwidth\leftmargini\advance\labelwidth by -\labelsep
+        \parsep=\parskip
+        \topsep=\medskipamount
+        \itemsep=\parskip \advance\itemsep by -\parsep}}
+\def\setitemitemindent#1{\settowidth{\labelwidth}{#1}%
+        \let\setit@m=Y%
+        \leftmarginii\labelwidth
+        \advance\leftmarginii\labelsep
+\def\@listii{\leftmargin\leftmarginii
+        \labelwidth\leftmarginii\advance\labelwidth by -\labelsep
+        \parsep=\parskip
+        \topsep=6\p@
+        \itemsep=\parskip \advance\itemsep by -\parsep}}
+
+
 \def\fps@figure{htbp}
 \def\fps@table{htbp}
-%
-% Frame for paste-in figures or tables
-\def\mpicplace#1#2{%  #1 =width   #2 =height
-\vbox{\hbox to #1{\vrule\@width \fboxrule \@height #2\hfill}}}
 
 
-% redefininition of the captions for "figure" and "table" environments
-%
+\def\mpicplace#1#2%
+{%
+  \vbox%
+  {%
+    \hbox to #1{\vrule\@width \fboxrule \@height #2\hfill}%
+  }%
+}%
+
+
 \@ifundefined{floatlegendstyle}{\def\floatlegendstyle{\bfseries}}{}
 \def\floatcounterend{\enspace}
 \def\capstrut{\vrule\@width\z@\@height\topskip}
 \@ifundefined{captionstyle}{\def\captionstyle{\normalfont\small}}{}
 \@ifundefined{instindent}{\newdimen\instindent}{}
 
-\long\def\@caption#1[#2]#3{\par\addcontentsline{\csname
-  ext@#1\endcsname}{#1}{\protect\numberline{\csname
-  the#1\endcsname}{\ignorespaces #2}}\begingroup
-    \@parboxrestore\if@minipage\@setminipage\fi
-    \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
-  \endgroup}
 
-\def\twocaptionwidth#1#2{\def\first@capwidth{#1}\def\second@capwidth{#2}}
-% Default: .46\textwidth
-\twocaptionwidth{.46\textwidth}{.46\textwidth}
+\long\def\@caption#1[#2]#3%
+{%
+  \par\addcontentsline%
+    {\csname ext@#1\endcsname}{#1}%
+    {\protect\numberline{\csname the#1\endcsname}{\ignorespaces#2}}
+  \begingroup%
+    \@parboxrestore%
+    \if@minipage%
+      \@setminipage%
+    \fi%
+    \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}%
+    \par%
+  \endgroup%
+}%
 
-\def\leftcaption{\refstepcounter\@captype\@dblarg%
-            {\@leftcaption\@captype}}
 
-\def\rightcaption{\refstepcounter\@captype\@dblarg%
-            {\@rightcaption\@captype}}
+\let\oldtable\table
+\let\oldendtable\endtable
+\renewenvironment{table}%
+{%
+  \oldtable%
+  \@tableenvironmenttrue%
+}%
+{%
+  \@tableenvironmentfalse%
+  \oldendtable%
+}%
 
-\long\def\@leftcaption#1[#2]#3{\addcontentsline{\csname
-  ext@#1\endcsname}{#1}{\protect\numberline{\csname
-  the#1\endcsname}{\ignorespaces #2}}\begingroup
-    \@parboxrestore
-    \vskip\figcapgap
-    \@maketwocaptions{\csname fnum@#1\endcsname}{\ignorespaces #3}%
-    {\first@capwidth}\ignorespaces\hspace{.073\textwidth}\hfill%
-  \endgroup}
 
-\long\def\@rightcaption#1[#2]#3{\addcontentsline{\csname
-  ext@#1\endcsname}{#1}{\protect\numberline{\csname
-  the#1\endcsname}{\ignorespaces #2}}\begingroup
-    \@parboxrestore
-    \@maketwocaptions{\csname fnum@#1\endcsname}{\ignorespaces #3}%
-    {\second@capwidth}\par
-  \endgroup}
+\newdimen\figcapgap\figcapgap=5\p@
+\newdimen\tabcapgap\tabcapgap=3\p@
 
-\long\def\@maketwocaptions#1#2#3{%
-   \parbox[t]{#3}{{\floatlegendstyle #1\floatcounterend}#2}}
 
-\def\fig@pos{l}
-\newcommand{\leftfigure}[2][\fig@pos]{\makebox[.4635\textwidth][#1]{#2}}
-\let\rightfigure\leftfigure
+\long\def\@makecaption#1#2%
+{%
+  \captionstyle%
+  \if@tableenvironment%
+    {{\floatlegendstyle #1\floatcounterend}\capstrut #2}%
+  \else%
+    \centering%
+    {{\floatlegendstyle #1\floatcounterend}\capstrut #2}%
+  \fi%
+}%
 
-\newdimen\figgap\figgap=0.5cm  % hgap between figure and sidecaption
-%
-\long\def\@makesidecaption#1#2{\@tempdimb=3.6cm
-   \setbox0=\vbox{\hsize=\@tempdimb
-                  \captionstyle{\floatlegendstyle
-                                         #1\floatcounterend}#2}%
-   \ifdim\instindent<\z@
-      \ifdim\ht0>-\instindent
-         \advance\instindent by\ht0
-         \typeout{^^JClass-Warning: Legend of \string\sidecaption\space for
-                     \@captype\space\csname the\@captype\endcsname
-                  ^^Jis \the\instindent\space taller than the corresponding float -
-                  ^^Jyou'd better switch the environment. }%
-         \instindent\z@
-      \fi
-   \else
-      \ifdim\ht0<\instindent
-         \advance\instindent by-\ht0
-         \advance\instindent by-\dp0\relax
-         \advance\instindent by\topskip
-         \advance\instindent by-11\p@
-      \else
-         \advance\instindent by-\ht0
-         \instindent=-\instindent
-         \typeout{^^JClass-Warning: Legend of \string\sidecaption\space for
-                     \@captype\space\csname the\@captype\endcsname
-                  ^^Jis \the\instindent\space taller than the corresponding float -
-                  ^^Jyou'd better switch the environment. }%
-         \instindent\z@
-      \fi
-   \fi
-   \parbox[b]{\@tempdimb}{\captionstyle{\floatlegendstyle
-                                        #1\floatcounterend}#2%
-                          \ifdim\instindent>\z@ \\
-                               \vrule\@width\z@\@height\instindent
-                                     \@depth\z@
-                          \fi}}
-\def\sidecaption{\@ifnextchar[\sidec@ption{\sidec@ption[b]}}
-%
-\newbox\bildb@x
-%
-\def\sidec@ption[#1]#2\caption{%
-\setbox\bildb@x=\hbox{\ignorespaces#2\unskip}%
-\if@twocolumn
- \ifdim\hsize<\textwidth\else
-   \ifdim\wd\bildb@x<\columnwidth
-      \typeout{Double column float fits into single column -
-            ^^Jyou'd better switch the environment. }%
-   \fi
- \fi
-\fi
-  \instindent=\ht\bildb@x
-  \advance\instindent by\dp\bildb@x
-\if t#1
-\else
-  \instindent=-\instindent
-\fi
-\@tempdimb=\hsize
-\advance\@tempdimb by-\figgap
-\advance\@tempdimb by-\wd\bildb@x
-\ifdim\@tempdimb<3.6cm
-   \ClassWarning{SVMult}{\string\sidecaption: No sufficient room for the legend;
-             ^^Jusing normal \string\caption}%
-   \unhbox\bildb@x
-   \let\@capcommand=\@caption
-\else
-%  \ifdim\@tempdimb<4.5cm
-%     \ClassWarning{SVMono}{\string\sidecaption: Room for the legend very narrow;
-%              ^^Jusing \string\raggedright}%
-      \toks@\expandafter{\captionstyle\sloppy
-                         \rightskip=\z@\@plus6mm\relax}%
-      \def\captionstyle{\the\toks@}%
-%  \fi
-   \let\@capcommand=\@sidecaption
-%  \leavevmode
-%  \unhbox\bildb@x
-%  \hfill
-\fi
-\refstepcounter\@captype
-\@dblarg{\@capcommand\@captype}}
-\long\def\@sidecaption#1[#2]#3{\addcontentsline{\csname
-  ext@#1\endcsname}{#1}{\protect\numberline{\csname
-  the#1\endcsname}{\ignorespaces #2}}\begingroup
-    \@parboxrestore
-    \@makesidecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}%
-    \hfill
-    \unhbox\bildb@x
-    \par
-  \endgroup}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\def\fig@type{figure}
-
-\def\leftlegendglue{\relax}
-\newdimen\figcapgap\figcapgap=5\p@   % vgap between figure and caption
-\newdimen\tabcapgap\tabcapgap=3\p@ % vgap between caption and table
-
-%\long\def\@makecaption#1#2{%
-%  \captionstyle
-%  \setbox\@tempboxa\hbox{{\floatlegendstyle #1\floatcounterend}\capstrut #2}
-%  \hbox to\hsize{\leftlegendglue\unhbox\@tempboxa\hfil}
-%}
-
-\long\def\@makecaption#1#2{%
-  \captionstyle
-  \centering
-  {{\floatlegendstyle #1\floatcounterend}\capstrut #2}
-}
 
 \newcounter{merk}
-
 \def\endfigure{\resetsubfig\end@float}
-
 \@namedef{endfigure*}{\resetsubfig\end@dblfloat}
-
 \def\resetsubfig{\global\let\last@subfig=\undefined}
-
 \def\r@setsubfig{\xdef\last@subfig{\number\value{figure}}%
 \setcounter{figure}{\value{merk}}%
 \setcounter{merk}{0}}
 
-\def\subfigures{\refstepcounter{figure}%
-   \@tempcnta=\value{merk}%
-   \setcounter{merk}{\value{figure}}%
-   \setcounter{figure}{\the\@tempcnta}%
-   %\def\thefigure{\thesection.
-   %\@arabic\c@merk\alph{figure}}%
-   \def\thefigure{\@arabic\c@merk\alph{figure}}%
-   \let\resetsubfig=\r@setsubfig}
 
-\def\samenumber{\addtocounter{\@captype}{-1}%
-\@ifundefined{last@subfig}{}{\setcounter{merk}{\last@subfig}}}
-
-%-------------------------------------------------------------------------------
+\def\subfigures%
+{%
+  \refstepcounter{figure}%
+  \@tempcnta=\value{merk}%
+  \setcounter{merk}{\value{figure}}%
+  \setcounter{figure}{\the\@tempcnta}%
+  \def\thefigure{\thechapter.\@arabic\c@merk\alph{figure}}%
+  \let\resetsubfig=\r@setsubfig%
+}%
 
 
-%---------------------------- Theorem Environments -----------------------------
-\newtheoremstyle{derp}%
-{}%
-{}%
-{}%
-{}%
-{\bfseries}%
-{.}%
-{ }%
-{\thmname{#1}\thmnumber{ #2}\thmnote{ \normalfont(\itshape#3\normalfont)}}%
+\def\thechapterend{}
 
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{corollary}[theorem]{Corollary}
 
-\newtheorem*{theorem*}{Theorem}
-\newtheorem*{lemma*}{Lemma}
-\newtheorem*{proposition*}{Proposition}
-\newtheorem*{corollary*}{Corollary}
+%\newcounter{chapter}
 
-\theoremstyle{definition}
-\newtheorem*{case*}{Case}
-\newtheorem*{conjecture}{Conjecture}
-\newtheorem*{exercise}{Exercise}
-\newtheorem*{problem}{Problem}
-\theoremstyle{derp}
-\newtheorem*{property}{Property}
-\theoremstyle{definition}
-\newtheorem*{question}{Question}
-\newtheorem*{solution}{Solution}
 
-\theoremstyle{derp}
-\newtheorem{case}{Case}
-\newtheorem{rle}{Rule}
-\newtheorem{definition}{Definition}
-\newtheorem{example}{Example}
-\newtheorem*{definition*}{Definition}
-\newtheorem*{example*}{Example}
+\def\@chapapp{Chapter}
 
-\theoremstyle{remark}
-\newtheorem{remark}{Remark}
-\newtheorem{note}{Note}
-\newtheorem*{remark*}{Remark}
-\newtheorem*{note*}{Note}
+
+\def\l@chapter#1#2%
+{%
+  \par\addpenalty{-\@highpenalty}
+  \addvspace{1.0em \@plus \p@}
+  \@tempdima \tocchpnum \begingroup
+  \parindent \z@ \rightskip \@tocrmarg
+  \advance\rightskip by \z@ \@plus 2cm
+  \parfillskip -\rightskip \pretolerance=10000
+  \leavevmode \advance\leftskip\@tempdima \hskip -\leftskip
+  {\bfseries\boldmath#1}
+  \if x0#2 \hfil \null
+  \else
+      \nobreak
+      \leaders\hbox{$\m@th \mkern \@dotsep mu\hbox{.}\mkern
+      \@dotsep mu$}\hfill
+      \nobreak\hbox to\@pnumwidth{\hfil #2}%
+  \fi\par
+  \penalty\@highpenalty \endgroup
+}%
+
+
+\renewcommand\chapter%
+{%
+  \clearpage
+  \setcounter{section}{0}%
+  \setcounter{subsection}{0}%
+  \setcounter{figure}{0}
+  \setcounter{table}{0}
+  \setcounter{equation}{0}
+  \setcounter{footnote}{0}%
+  \begingroup
+    \let\@elt\@stpelt
+    \csname cl@chapter\endcsname
+  \endgroup
+  \global\@topnum\z@
+  \@afterindentfalse
+  \secdef\@chapter\@schapter
+}%
+
+
+\def\@chapter[#1]#2%
+{%
+  \refstepcounter{chapter}%
+  \if@numchapter
+    \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter\thechapterend}#1}%
+  \else
+    \addcontentsline{toc}{chapter}{#1}%
+  \fi
+  \addtocontents{lof}{\protect\addvspace{10\p@}}%
+  \addtocontents{lot}{\protect\addvspace{10\p@}}%
+  \if@twocolumn
+    \@topnewpage[\@makechapterhead{#2}]%
+  \else
+    \@makechapterhead{#2}%
+    \@afterheading
+  \fi
+}%
+
+
+\def\@schapter#1%
+{%
+  \if@twocolumn
+    \@topnewpage[\@makeschapterhead{#1}]%
+  \else
+    \@makeschapterhead{#1}%
+    \@afterheading
+  \fi
+}%
+
+
+\def\@makechapterhead#1%
+{%
+  {%
+    \parindent\z@\raggedright\normalfont
+    \hyphenpenalty \@M
+    \interlinepenalty\@M
+    \chapnumsize\chapnumstyle
+    \@chapapp\ \thechapter\thechapterend\par
+    \vskip 2\p@
+    \chapsize\chapstyle
+    \ignorespaces#1\par\nobreak
+    \processchapsubtit
+    \processchapauthor
+    \processmotto
+    \ifdim\pagetotal>167\p@
+      \vskip 11\p@
+    \else
+      %\@tempdima=167\p@\advance\@tempdima by-\pagetotal
+      \@tempdima=60\p@\advance\@tempdima by-\pagetotal
+      \vskip\@tempdima
+    \fi
+  }%
+}%
+
+
+\def\@makeschapterhead#1%
+{%
+  {%
+    \parindent \z@ \raggedright\normalfont
+    \hyphenpenalty \@M
+    \interlinepenalty\@M
+    \chapsize\chapstyle
+    \ignorespaces#1\par\nobreak
+    \processmotto
+    \ifdim\pagetotal>167\p@
+      \vskip 11\p@
+    \else
+      %\@tempdima=168\p@\advance\@tempdima by-\pagetotal
+      \@tempdima=48\p@\advance\@tempdima by-\pagetotal
+      \vskip\@tempdima
+    \fi
+  }%
+}%
+
+
+\newdimen\mottowidth
+\newcommand\motto[2][77mm]%
+{%
+  \setlength{\mottowidth}{#1}%
+  \gdef\m@ttotext{#2}
+}%
+
+
+\newcommand{\processmotto}%
+{%
+  \@ifundefined{m@ttotext}{}%
+  {%
+    \setbox0=\hbox%
+    {%
+      \vbox%
+      {
+        \hyphenpenalty=50%
+        \begin{flushright}%
+          \begin{minipage}{\mottowidth}%
+            \vrule\@width\z@\@height21\p@\@depth\z@
+            \normalfont\mottosize\mottostyle\m@ttotext
+          \end{minipage}%
+        \end{flushright}%
+      }%
+    }%
+    \@tempdima=\pagetotal
+    \advance\@tempdima by\ht0
+    \ifdim\@tempdima<157\p@
+      \multiply\@tempdima by-1
+      \advance\@tempdima by157\p@
+      \vskip\@tempdima
+    \fi
+    \box0\par
+    \global\let\m@ttotext=\undefined
+  }%
+}%
+
+
+\newcommand{\chapsubtitle}[1]%
+{%
+  \gdef\ch@psubtitle{#1}%
+}%
+
+
+\newcommand{\chapauthor}[1]%
+{%
+  \gdef\ch@pauthor{#1}%
+}%
+
+
+\newcommand{\processchapsubtit}%
+{%
+  \@ifundefined{ch@psubtitle}{}%
+  {%
+    {%
+      \normalfont\chapnumsize\chapnumstyle
+      \vskip 14\p@
+      \ch@psubtitle
+      \par
+    }%
+    \global\let\ch@psubtitle=\undefined
+  }%
+}%
+
+
+\newcommand{\processchapauthor}%
+{%
+  \@ifundefined{ch@pauthor}{}%
+  {%
+    {%
+      \normalfont\chapauthsize\chapauthstyle%
+      \vskip 20\p@%
+      \ch@pauthor%
+      \par%
+    }%
+    \global\let\ch@pauthor=\undefined
+  }%
+}%
+
+
+\newdimen\tocchpnum
+\newdimen\tocsecnum
+\newdimen\tocsectotal
+\newdimen\tocsubsecnum
+\newdimen\tocsubsectotal
+\newdimen\tocsubsubsecnum
+\newdimen\tocsubsubsectotal
+\newdimen\tocparanum
+\newdimen\tocparatotal
+\newdimen\tocsubparanum
+\tocchpnum=20\p@
+\tocsecnum=28.5\p@
+\tocsubsecnum=36.5\p@
+\tocsubsubsecnum=43\p@
+\tocparanum=45\p@
+\tocsubparanum=53\p@
+
+
+\def\calctocindent%
+{%
+  \tocsectotal=\tocchpnum
+  \advance\tocsectotal by\tocsecnum
+  \tocsubsectotal=\tocsectotal
+  \advance\tocsubsectotal by\tocsubsecnum
+  \tocsubsubsectotal=\tocsubsectotal
+  \advance\tocsubsubsectotal by\tocsubsubsecnum
+  \tocparatotal=\tocsubsubsectotal
+  \advance\tocparatotal by\tocparanum
+}%
+
+
+\calctocindent
+
+
+\def\@dottedtocline#1#2#3#4#5%
+{%
+  \ifnum #1>\c@tocdepth \else
+    \vskip \z@ \@plus.2\p@
+    {%
+      \leftskip #2\relax \rightskip \@tocrmarg \advance\rightskip by \z@ \@plus 2cm
+      \parfillskip -\rightskip \pretolerance=10000
+      \parindent #2\relax\@afterindenttrue
+      \interlinepenalty\@M
+      \leavevmode
+      \@tempdima #3\relax
+      \advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
+      {#4}\nobreak
+      \leaders\hbox{$\m@th
+        \mkern \@dotsep mu\hbox{.}\mkern \@dotsep
+        mu$}\hfill
+      \nobreak
+      \hb@xt@\@pnumwidth{\hfil\normalfont \normalcolor #5}%
+      \par%
+    }%
+  \fi
+}%
+
+
+\def\l@section{\@dottedtocline{1}{\tocchpnum}{\tocsecnum}}
+\def\l@subsection{\@dottedtocline{2}{\tocsectotal}{\tocsubsecnum}}
+\def\l@subsubsection{\@dottedtocline{3}{\tocsubsectotal}{\tocsubsubsecnum}}
+\def\l@paragraph{\@dottedtocline{4}{\tocsubsubsectotal}{\tocparanum}}
+\def\l@subparagraph{\@dottedtocline{5}{\tocparatotal}{\tocsubparanum}}
+
+
+\renewcommand\tableofcontents%
+{%
+  \chapter*{\contentsname\markboth{{\contentsname}}{{\contentsname}}}%
+  \@starttoc{toc}%
+}%
+
+
+\renewcommand\listoffigures%
+{%
+  \chapter*{\listfigurename\markboth{\listfigurename}{\listfigurename}}%
+  \@starttoc{lof}%
+}%
+
+
+\renewcommand\listoftables%
+{%
+  \chapter*{\listtablename\markboth{\listtablename}{\listtablename}}%
+  \@starttoc{lot}%
+}%
+
+
+\def\thesection{\thechapter.\@arabic\c@section}%
+\def\thefigure{\thechapter.\@arabic\c@figure}%
+\def\thetable{\thechapter.\@arabic\c@table}%
+
+
+\renewcommand\appendix%
+{%
+  \clearpage%
+
+  \setcounter{chapter}{0}%
+  \stepcounter{section}%
+  \setcounter{section}{0}%
+  \setcounter{equation}{0}%
+  \setcounter{figure}{0}%
+  \setcounter{table}{0}%
+  \setcounter{footnote}{0}%
+
+  \def\@chapapp{Appendix}%
+
+  \renewcommand\thechapter{\@Alph\c@chapter}%
+  \renewcommand\thesection{\thechapter.\@arabic\c@section}%
+  \renewcommand\thesubsection{\thesection.\@arabic\c@subsection}%
+  \renewcommand\theequation{\thechapter.\@arabic\c@equation}%
+  \renewcommand\thefigure{\thechapter.\@arabic\c@figure}%
+  \renewcommand\thetable{\thechapter.\@arabic\c@table}%
+}%
+
+
+\@ifundefined{thechapterend}{\def\thechapterend{}}{}
+\newdimen\betweenumberspace
+\betweenumberspace=5\p@
+\newdimen\headlineindent
+\headlineindent=2.5cc
+
+
+\renewcommand\part%
+{%
+  \clearpage%
+  \secdef\@part\@spart%
+}%
+
+
+\def\@part[#1]#2%
+{%
+  \ifnum \c@secnumdepth >-2\relax
+    \refstepcounter{part}
+    \addcontentsline{toc}{part}{\partname\ 
+      \thepart\thechapterend\hspace{\betweenumberspace}#1}
+  \else
+    \addcontentsline{toc}{part}{#1}
+  \fi
+  \markboth{}{}
+  {%
+    \raggedleft%
+    \hyphenpenalty \@M%
+    \interlinepenalty\@M%
+    \ifnum \c@secnumdepth >-2\relax%
+      \normalfont\partnumsize\partnumstyle
+      \partname\ \thepart
+      \par%
+      \vskip 2\p@%
+    \fi
+    \partsize\partstyle #2\par%
+  }%
+  \vfil%
+}%
+
+
+\def\@spart#1%
+{%
+  {%
+    \raggedleft
+     \normalfont\partsize\partstyle#1\par
+  }%
+  \vfil%
+}%
+
+
+\def\ps@frontmatterpagestyle%
+{%
+  \let\@oddhead\@empty\let\@evenhead\@empty%
+  \def\@oddfoot{\reset@font\small\hfil\thepage\hfil}%
+  \let\@evenfoot\@oddfoot%
+}%
+
+
+\def\ps@mainmatterpagestyle%
+{%
+  \let\@oddhead\@empty\let\@evenhead\@empty%
+  \def\@oddfoot{\reset@font\small\hfil\thepage}%
+  \let\@evenfoot\@oddfoot%
+}%
 %-------------------------------------------------------------------------------

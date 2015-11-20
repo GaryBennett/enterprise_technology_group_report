@@ -9,12 +9,40 @@
 \ProvidesPackage{lboro}[2014/12/24 v1.0 lboro package]
 %-------------------------------------------------------------------------------
 
-\usepackage[parfill]{parskip}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{mathptmx}
+\usepackage[scaled=0.92]{helvet}
+\usepackage{courier}
+\usepackage[mathscr]{euscript}
+\usepackage[titletoc,title]{appendix}
+\usepackage[english]{babel}
+\usepackage[{protrusion=true,expansion=true}]{microtype}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[dvipsnames,svgnames,usenames]{xcolor}
+\usepackage{tikz}
+\usepackage{pdflscape}
+\usepackage{booktabs}
+\usepackage[bottom]{footmisc}
+\usepackage{pgfgantt}
+\usepackage{framed}
+
+\def\url#1{#1}
+
+\usetikzlibrary{arrows}
+
+\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+
+%\usepackage[parfill]{parskip}
+%\usepackage[style=numeric-comp,sorting=nyt,firstinits=true]{biblatex}
 \usepackage[style=authoryear,sorting=nyt,firstinits=true]{biblatex}
 \addbibresource{back/references.bib}
 \renewcommand*{\nameyeardelim}{\addcomma\space}
-%\setlist{noitemsep}
-\setlist{itemsep=0.1em}
+\setlist{noitemsep}
+%\setlist{itemsep=0em}
 
 \usepackage{minted}
 \usemintedstyle{friendly}
@@ -25,3 +53,50 @@
 %  %\def\l@section{\@dottedtocline{1}{1em}{3em}}
 %  \def\l@subsection{\@dottedtocline{2}{1em}{3em}}
 %\makeatother
+
+%---------------------------- Theorem Environments -----------------------------
+\newtheoremstyle{derp}%
+{}%
+{}%
+{}%
+{}%
+{\bfseries}%
+{.}%
+{ }%
+{\thmname{#1}\thmnumber{ #2}\thmnote{ \normalfont(\itshape#3\normalfont)}}%
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newtheorem*{theorem*}{Theorem}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem*{corollary*}{Corollary}
+
+\theoremstyle{definition}
+\newtheorem*{case*}{Case}
+\newtheorem*{conjecture}{Conjecture}
+\newtheorem*{exercise}{Exercise}
+\newtheorem*{problem}{Problem}
+\theoremstyle{derp}
+\newtheorem*{property}{Property}
+\theoremstyle{definition}
+\newtheorem*{question}{Question}
+\newtheorem*{solution}{Solution}
+
+\theoremstyle{derp}
+\newtheorem{case}{Case}
+\newtheorem{rle}{Rule}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem*{definition*}{Definition}
+\newtheorem*{example*}{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{note}{Note}
+\newtheorem*{remark*}{Remark}
+\newtheorem*{note*}{Note}
+%-------------------------------------------------------------------------------

@@ -1,27 +1,26 @@
-\documentclass[]{lboro}
+\documentclass{lboro}
 
 \usepackage{lboro}
 
-\title{Enterprise Technology}
-\subtitle{Group Assignment}
-\author{Gary~Bennett, Rawand~Hawiz, Jeansy~Molanza, Jiefei~Wei and Another~Guy}
+\title{Example Title}
+\subtitle{This is a subtitle}
+\author{Gary Bennett}
 \date{\today}
 
 \begin{document}
 
-\maketitle
+  \maketitle
 
-\frontmatter
-\include{front/dedication}
-\include{front/acknowledgement}
-\include{front/abstract}
-\include{front/listofs}
+  \frontmatter
+    \tableofcontents
+    \listoffigures
+    \listoftables
 
-\mainmatter
-\include{main/introduction}
+  \mainmatter
+    \include{main/introduction}
 
-\backmatter
-\include{back/refs}
-\include{back/appendix}
+  \backmatter
+    \printbibliography[heading=bibintoc]
+    \appendix
 
 \end{document}
