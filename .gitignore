@@ -26,6 +26,7 @@
 *.bcf
 *.pdf
 !inc/*.pdf
+!build/*.pdf
 *.run.xml
 
 _minted-report/
